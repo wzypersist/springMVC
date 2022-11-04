@@ -8,8 +8,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 所有映射的注册中心
- * `MappingRegistry`是`RequestMappingInfo`、`HandlerMethod`的注册中心，当解析完一个控制器的method后就会向`MappingRegistry`
- * 中注册一个；最后当接收到用户请求后，根据请求的url在`MappingRegistry`找到对应的`HandlerMethod`；
+ * `MappingRegistry`是`RequestMappingInfo`、`HandlerMethod`的注册中心，
+ * 当解析完一个控制器的method后就会向`MappingRegistry`中注册一个；
+ * 最后当接收到用户请求后，根据请求的url在`MappingRegistry`找到对应的`HandlerMethod`；
  */
 public class MappingRegistry {
 

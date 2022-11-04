@@ -26,4 +26,19 @@ public class HandlerMethod {
         }
 
     }
+    public Object getBean() {
+        return bean;
+    }
+
+    public Class<?> getBeanType() {
+        return beanType;
+    }
+
+    public Method getMethod() {
+        return method;
+    }
+
+    public List<MethodParameter> getParameters() {
+        return parameters;
+    }
 }
