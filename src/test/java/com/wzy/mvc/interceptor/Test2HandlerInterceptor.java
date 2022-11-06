@@ -1,4 +1,4 @@
-package com.wzy.mvc.intercepter;
+package com.wzy.mvc.interceptor;
 
 
 import com.wzy.mvc.ModelAndView;

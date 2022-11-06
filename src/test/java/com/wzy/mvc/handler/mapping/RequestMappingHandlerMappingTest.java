@@ -1,21 +1,20 @@
-package com.wzy.mvc.handler;
+package com.wzy.mvc.handler.mapping;
 
 import com.wzy.mvc.BaseJunit4Test;
-import com.wzy.mvc.annotation.RequestMapping;
 import com.wzy.mvc.controller.TestHandlerController;
 import com.wzy.mvc.exception.NoHandlerFoundException;
-import com.wzy.mvc.handler.interceptor.InterceptorRegistry;
+import com.wzy.mvc.handler.HandlerExecutionChain;
+import com.wzy.mvc.handler.HandlerMethod;
 import com.wzy.mvc.handler.interceptor.MappedInterceptor;
 import com.wzy.mvc.handler.mapping.MappingRegistry;
 import com.wzy.mvc.handler.mapping.RequestMappingHandlerMapping;
 import com.wzy.mvc.handler.mapping.RequestMappingInfo;
-import com.wzy.mvc.http.RequestMethod;
-import com.wzy.mvc.intercepter.Test2HandlerInterceptor;
-import com.wzy.mvc.intercepter.TestHandlerInterceptor;
+import com.wzy.mvc.interceptor.Test2HandlerInterceptor;
+
+import com.wzy.mvc.interceptor.TestHandlerInterceptor;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 public class RequestMappingHandlerMappingTest extends BaseJunit4Test {

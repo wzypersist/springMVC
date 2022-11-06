@@ -6,6 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface HandlerMapping {
 
-    HandlerExecutionChain getHandler(HttpServletRequest request);
+    HandlerExecutionChain getHandler(HttpServletRequest request) throws Exception;
 
 }

@@ -47,7 +47,7 @@ public class HandlerExecutionChain {
         }
     }
 
-        private void triggerAfterCompletion(HttpServletRequest request, HttpServletResponse response, Exception ex) {
+    public void triggerAfterCompletion(HttpServletRequest request, HttpServletResponse response, Exception ex) {
         if(CollectionUtils.isEmpty(interceptors)){
             return;
         }
