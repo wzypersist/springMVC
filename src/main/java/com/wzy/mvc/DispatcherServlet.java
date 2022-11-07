@@ -2,6 +2,7 @@ package com.wzy.mvc;
 
 import com.wzy.mvc.handler.HandlerExecutionChain;
 import com.wzy.mvc.handler.adapter.HandlerAdapter;
+import com.wzy.mvc.handler.exception.HandlerExceptionResolver;
 import com.wzy.mvc.handler.mapping.HandlerMapping;
 import com.wzy.mvc.handler.view.View;
 import com.wzy.mvc.handler.view.viewresolver.ViewResolver;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletConfig;
@@ -31,7 +33,7 @@ public class DispatcherServlet extends HttpServlet implements ApplicationContext
     private HandlerMapping handlerMapping;
     private HandlerAdapter handlerAdapter;
     private ViewResolver viewResolver;
-
+    private Collection<HandlerExceptionResolver> handlerExceptionResolvers;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -47,6 +49,7 @@ public class DispatcherServlet extends HttpServlet implements ApplicationContext
         this.handlerMapping = this.applicationContext.getBean(HandlerMapping.class);
         this.handlerAdapter = this.applicationContext.getBean(HandlerAdapter.class);
         this.viewResolver = this.applicationContext.getBean(ViewResolver.class);
+        this.handlerExceptionResolvers = this.applicationContext.getBeansOfType(HandlerExceptionResolver.class).values();
     }
 
     /**
@@ -128,8 +131,17 @@ public class DispatcherServlet extends HttpServlet implements ApplicationContext
         logger.info("No view rendering, null ModelAndView returned.");
     }
 
-    private ModelAndView processHandlerException(HttpServletRequest req, HttpServletResponse resp, Exception ex) {
-        return null;
+    private ModelAndView processHandlerException(HttpServletRequest req, HttpServletResponse resp, Exception ex) throws Exception{
+        if(CollectionUtils.isEmpty(this.handlerExceptionResolvers)){
+            throw ex;
+        }
+        for (HandlerExceptionResolver resolver : this.handlerExceptionResolvers) {
+            ModelAndView exModelAndView = resolver.resolveException(req,resp,ex);
+            if(exModelAndView != null){
+                return exModelAndView;
+            }
+        }
+        throw ex;
     }
 
     /**

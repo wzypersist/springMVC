@@ -19,6 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ *
+ *
+ * @author wenzhaoyu
+ * @date 2022/11/7
+ */
+
 public class InvocableHandlerMethod extends HandlerMethod {
 
     private ParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
@@ -46,6 +53,15 @@ public class InvocableHandlerMethod extends HandlerMethod {
         this.conversionService = conversionService;
     }
 
+    /**
+     * 在之前我们创建的`InvocableHandlerMethod`未考虑到需要手动传入参数不需要通过参数解析器的情况，
+     *  比如这里我们需要传入一个异常参数，所以我们需要修改一下`InvocableHandlerMethod`的invokeAndHandle方法
+     * @param request
+     * @param response
+     * @param mavContainer
+     * @param proviedArgs
+     * @throws Exception
+     */
     public void invokeAndHandle(HttpServletRequest request,
                               HttpServletResponse response,
                               ModelAndViewContainer mavContainer,
@@ -78,6 +94,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
         List<Object> args = new ArrayList<>(parameters.size());
         for (MethodParameter parameter : parameters) {
             parameter.initParameterNameDiscovery(this.parameterNameDiscoverer);
+            //在执行解析器之前判断是否传入的参数满足
             Object arg = findProvidedArgument(parameter,proviedArgs);
             if(!Objects.isNull(arg)){
                 args.add(arg);

@@ -3,6 +3,8 @@ package com.wzy.mvc.config;
 import com.wzy.mvc.DispatcherServlet;
 import com.wzy.mvc.handler.adapter.HandlerAdapter;
 import com.wzy.mvc.handler.adapter.RequestMappingHandlerAdapter;
+import com.wzy.mvc.handler.exception.ExceptionHandlerExceptionResolver;
+import com.wzy.mvc.handler.exception.HandlerExceptionResolver;
 import com.wzy.mvc.handler.interceptor.InterceptorRegistry;
 import com.wzy.mvc.handler.mapping.HandlerMapping;
 import com.wzy.mvc.handler.mapping.RequestMappingHandlerMapping;
@@ -69,5 +71,11 @@ public class AppConfig {
     @Bean
     public DispatcherServlet dispatcherServlet() {
         return new DispatcherServlet();
+    }
+    @Bean
+    public HandlerExceptionResolver handlerExceptionResolver(ConversionService conversionService) {
+        ExceptionHandlerExceptionResolver resolver = new ExceptionHandlerExceptionResolver();
+        resolver.setConversionService(conversionService);
+        return resolver;
     }
 }
